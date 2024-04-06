@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <div className="flex bg-cyan-50">
-        <div classname="flex-none">
+        <div className="flex-none">
           <SpinForm />
         </div>
         <div className="flex-auto">
