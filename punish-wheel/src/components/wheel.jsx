@@ -1,6 +1,6 @@
 import { Wheel } from "react-custom-roulette";
 import React, { useState } from "react";
-
+import SpinDetails from "../components/spinDetails";
 const data = [
   { option: "10 push ups", backgroundColor: "red" },
   { option: "10 sit ups", backgroundColor: "green" },
@@ -13,12 +13,14 @@ const data = [
 export default function WheelSpinner() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const [selectedSpin, setSelectedSpin] = useState(null);
 
   const handleSpinClick = () => {
     if (!mustSpin) {
       const newPrizeNumber = Math.floor(Math.random() * data.length);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
+      setSelectedSpin(data.option);
     }
   };
 
@@ -41,6 +43,7 @@ export default function WheelSpinner() {
         >
           SPIN
         </button>
+        {selectedSpin && <SpinDetails data={selectedSpin} />}
       </div>
     </div>
   );

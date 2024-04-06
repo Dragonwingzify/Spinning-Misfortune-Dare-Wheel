@@ -1,13 +1,20 @@
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-  },
-  // More people...
-];
+import { useEffect, useState } from "react";
+import SpinDetails from "../components/spinDetails";
 
 export default function History() {
+  const [spins, setSpins] = useState(null);
+
+  useEffect(() => {
+    const fetchSpins = async () => {
+      const response = await fetch("/api/spins");
+      const json = await response.json();
+
+      if (response.ok) {
+        setSpins(json);
+      }
+    };
+    fetchSpins();
+  }, []);
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -38,12 +45,6 @@ export default function History() {
                     scope="col"
                     className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                   >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
                     Title
                   </th>
                   <th
@@ -55,19 +56,10 @@ export default function History() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {people.map((person) => (
-                  <tr key={person.email} className="divide-x divide-gray-200">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                      {person.name}
-                    </td>
-                    <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                      {person.title}
-                    </td>
-                    <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                      {person.email}
-                    </td>
-                  </tr>
-                ))}
+                {spins &&
+                  spins.map((spin) => (
+                    <SpinDetails key={spin._id} spin={spin} />
+                  ))}
               </tbody>
             </table>
           </div>

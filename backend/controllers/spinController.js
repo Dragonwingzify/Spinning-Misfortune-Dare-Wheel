@@ -22,11 +22,11 @@ const getSpin = async (req, res) => {
 
 //create new spin
 const createSpin = async (req, res) => {
-  const { title } = req.body;
+  const { title, totalWheelSpin } = req.body;
 
   // add doc to db
   try {
-    const spin = await Spin.create({ title });
+    const spin = await Spin.create({ title, totalWheelSpin });
     res.status(200).json(spin);
   } catch (error) {
     res.status(400).json({ error: error.message });

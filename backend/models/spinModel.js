@@ -8,6 +8,9 @@ const spinSchema = new Schema(
       type: String,
       required: true,
     },
+    totalWheelSpin: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
