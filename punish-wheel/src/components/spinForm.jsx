@@ -1,8 +1,22 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import InputField from "../components/inputField";
+import SpinDetails from "./spinDetails";
 export default function SpinForm() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState(null);
+  const [spins, setSpins] = useState(null);
+
+  useEffect(() => {
+    const fetchSpins = async () => {
+      const response = await fetch("/api/spins");
+      const json = await response.json();
+
+      if (response.ok) {
+        setSpins(json);
+      }
+    };
+    fetchSpins();
+  }, []);
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -25,18 +39,24 @@ export default function SpinForm() {
       console.log("new spin added", json);
     }
   };
+
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
   return (
-    <form className="px-14 sm:px-6 lg:px-8" onSubmit={handleSubmit}>
+    <form
+      className="px-14 sm:px-6 lg:px-8 lg:pb-96 bg-teal-300"
+      onSubmit={handleSubmit}
+    >
       <div className="sm:flex sm:items-center ">
         <div className="relative mt-20 ">
-          <input
+          <InputField
             type="text"
-            onChange={(e) => setTitle(e.target.value)}
             value={title}
-            name="name"
-            id="name"
-            className="peer block w-full border-0 bg-gray-50 py-1.5 px-20 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
             placeholder="Insert Challenge"
+            onChange={handleChange}
+            disabled={false}
           />
           <div
             className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-indigo-600"
@@ -52,6 +72,17 @@ export default function SpinForm() {
       </div>
       <div className="mt-8 flow-root">
         <div className="mt-2">
+          {spins &&
+            spins.map((spin) => (
+              <InputField
+                key={spin._id}
+                type="text"
+                title={spin.title}
+                onChange={handleChange}
+                disabled={true}
+              />
+            ))}
+
           {/* <input
             type="text"
             value={title}
