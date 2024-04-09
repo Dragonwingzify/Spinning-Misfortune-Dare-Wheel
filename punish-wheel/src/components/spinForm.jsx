@@ -18,6 +18,20 @@ export default function SpinForm() {
     fetchSpins();
   }, []);
 
+  console.log("spins: ", spins);
+
+  const handleClick = async (spinId) => {
+    const response = await fetch("/api/spins/" + spinId, {
+      method: "DELETE",
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log(spins._id);
+      console.log("Deleted: ", json);
+    }
+  };
+
   const handleSubmit = async (e) => {
     // e.preventDefault();
     const spin = { title };
@@ -74,22 +88,24 @@ export default function SpinForm() {
         <div className="mt-2">
           {spins &&
             spins.map((spin) => (
-              <InputField
-                key={spin._id}
-                type="text"
-                title={spin.title}
-                onChange={handleChange}
-                disabled={true}
-              />
+              <div className="relative">
+                <InputField
+                  key={spin._id}
+                  type="text"
+                  title={spin.title}
+                  onChange={handleChange}
+                  disabled={true}
+                />
+                <div className="absolute top-2 right-2.5">
+                  <button
+                    onClick={() => handleClick(spin._id)}
+                    className="rounded-full bg-indigo-600 h-6 w-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
             ))}
-
-          {/* <input
-            type="text"
-            value={title}
-            disabled
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
-            placeholder={title}
-          /> */}
         </div>
       </div>
     </form>
