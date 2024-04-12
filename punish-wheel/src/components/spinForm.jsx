@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import InputField from "../components/inputField";
-import SpinDetails from "./spinDetails";
+import { useSpinsContext } from "../hooks/useSpinsContext";
+
 export default function SpinForm() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState(null);
-  const [spins, setSpins] = useState(null);
+  // const [spins, setSpins] = useState(null);
+
+  const { spins, dispatch } = useSpinsContext();
 
   useEffect(() => {
     const fetchSpins = async () => {
@@ -12,28 +15,27 @@ export default function SpinForm() {
       const json = await response.json();
 
       if (response.ok) {
-        setSpins(json);
+        // setSpins(json);
+        dispatch({ type: "SET_SPINS", payload: json });
       }
     };
     fetchSpins();
-  }, []);
+  }, [dispatch]);
 
-  console.log("spins: ", spins);
-
-  const handleClick = async (spinId) => {
-    const response = await fetch("/api/spins/" + spinId, {
+  const handleClick = async (spin) => {
+    const response = await fetch("/api/spins/" + spin, {
       method: "DELETE",
     });
     const json = await response.json();
 
     if (response.ok) {
-      console.log(spins._id);
       console.log("Deleted: ", json);
+      dispatch({ type: "DELETE_SPIN", payload: json });
     }
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const spin = { title };
     const response = await fetch("/api/spins", {
       method: "POST",
@@ -51,6 +53,7 @@ export default function SpinForm() {
       setTitle("");
       setError(null);
       console.log("new spin added", json);
+      dispatch({ type: "CREATE_SPIN", payload: json });
     }
   };
 
@@ -84,13 +87,13 @@ export default function SpinForm() {
           {error && <div>{error}</div>}
         </div>
       </div>
+
       <div className="mt-8 flow-root">
         <div className="mt-2">
           {spins &&
             spins.map((spin) => (
-              <div className="relative">
+              <div key={spin._id} className="relative">
                 <InputField
-                  key={spin._id}
                   type="text"
                   title={spin.title}
                   onChange={handleChange}
@@ -98,7 +101,10 @@ export default function SpinForm() {
                 />
                 <div className="absolute top-2 right-2.5">
                   <button
-                    onClick={() => handleClick(spin._id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClick(spin._id);
+                    }}
                     className="rounded-full bg-indigo-600 h-6 w-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     X
