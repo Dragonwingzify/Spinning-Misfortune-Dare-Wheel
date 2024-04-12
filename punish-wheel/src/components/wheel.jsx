@@ -1,6 +1,7 @@
 import { Wheel } from "react-custom-roulette";
 import React, { useEffect, useState } from "react";
 import SpinDetails from "../components/spinDetails";
+import { useSpinsContext } from "../hooks/useSpinsContext";
 
 export default function WheelSpinner() {
   const [mustSpin, setMustSpin] = useState(false);
@@ -8,22 +9,19 @@ export default function WheelSpinner() {
   const [selectedSpin, setSelectedSpin] = useState(null);
   const [data, setData] = useState(null);
 
+  const { spins, dispatch } = useSpinsContext();
+
   useEffect(() => {
     const fetchSpins = async () => {
       const response = await fetch("/api/spins");
       const json = await response.json();
 
       if (response.ok) {
-        const mappedData = json.map((item) => ({
-          option: item.title,
-          backgroundColor: "red",
-        }));
-        setData(mappedData);
-        console.log(mappedData);
+        dispatch({ type: "SET_SPINS", payload: json });
       }
     };
     fetchSpins();
-  }, []);
+  }, [dispatch]);
 
   const handleSpinClick = () => {
     if (!mustSpin && data) {
@@ -33,6 +31,17 @@ export default function WheelSpinner() {
       setSelectedSpin(data.option);
     }
   };
+
+  useEffect(() => {
+    if (spins) {
+      const mappedData = spins.map((item) => ({
+        option: item.title,
+        backgroundColor: "red",
+      }));
+      setData(mappedData);
+      console.log(mappedData);
+    }
+  }, [spins]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
