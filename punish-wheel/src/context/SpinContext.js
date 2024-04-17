@@ -16,6 +16,12 @@ export const spinsReducer = (state, action) => {
       return {
         spins: state.spins.filter((spin) => spin._id !== action.payload._id),
       };
+    case "UPDATE_SPIN":
+      return {
+        spins: state.spins.map((spin) =>
+          action.payload._id ? action.payload : spin
+        ),
+      };
     default:
       return state;
   }

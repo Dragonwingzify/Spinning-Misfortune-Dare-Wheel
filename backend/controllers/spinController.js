@@ -50,26 +50,35 @@ const deleteSpin = async (req, res) => {
 
 //update spin
 
-// const updateSpin = async (req, res) => {
-//   const { id } = req.params;
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return res.status(400).json({ error: "no such spin exist" });
-//   }
+const updateSpin = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "No such spin exists" });
+  }
 
-//   const spin = await Spin.findOneAndUpdate({ _id: id },{
-//     ...req.body
-// });
+  try {
+    // Find the spin by its ID
+    const spin = await Spin.findById(id);
 
-//   if (!spin) {
-//     return res.status(400).json({ error: "no such spin exist" });
-//   }
+    if (!spin) {
+      return res.status(404).json({ error: "No such spin exists" });
+    }
 
-//   return res.status(200).json(spin);
-// };
+    // Increment the totalWheelSpin count by 1
+    spin.totalWheelSpin += 1;
+    await spin.save();
+
+    return res.status(200).json(spin);
+  } catch (error) {
+    console.error("Error updating spin:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 module.exports = {
   getSpins,
   getSpin,
   createSpin,
   deleteSpin,
+  updateSpin,
 };
