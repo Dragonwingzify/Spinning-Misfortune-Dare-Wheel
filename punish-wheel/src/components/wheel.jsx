@@ -29,7 +29,6 @@ export default function WheelSpinner() {
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
       setSelectedSpin(data[newPrizeNumber]);
-      console.log("data ", data);
     }
   };
 
@@ -62,7 +61,6 @@ export default function WheelSpinner() {
         backgroundColor: "red",
       }));
       setData(mappedData);
-      console.log(mappedData);
     }
   }, [spins]);
 
@@ -85,7 +83,6 @@ export default function WheelSpinner() {
         >
           SPIN
         </button>
-        {/* {selectedSpin && <SpinDetails data={selectedSpin} />} */}
       </div>
     </div>
   );
