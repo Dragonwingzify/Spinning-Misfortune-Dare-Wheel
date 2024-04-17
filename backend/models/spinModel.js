@@ -10,6 +10,7 @@ const spinSchema = new Schema(
     },
     totalWheelSpin: {
       type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

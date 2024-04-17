@@ -28,13 +28,36 @@ export default function WheelSpinner() {
       const newPrizeNumber = Math.floor(Math.random() * data.length);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
-      setSelectedSpin(data.option);
+      setSelectedSpin(data[newPrizeNumber]);
+      console.log("data ", data);
+    }
+  };
+
+  const updateSpinCount = async () => {
+    const response = await fetch(`/api/spins/${selectedSpin.id}`, {
+      method: "PATCH",
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "UPDATE_COUNT", payload: json });
+      console.log("updated count into db");
+    } else {
+      console.log("Failed to update spin count", selectedSpin);
+    }
+  };
+
+  const handleStopSpinning = () => {
+    setMustSpin(false);
+    if (selectedSpin) {
+      updateSpinCount();
     }
   };
 
   useEffect(() => {
     if (spins) {
       const mappedData = spins.map((item) => ({
+        id: item._id,
         option: item.title,
         backgroundColor: "red",
       }));
@@ -53,9 +76,7 @@ export default function WheelSpinner() {
             data={data}
             backgroundColors={["#3e3e3e", "#df3428"]}
             textColors={["#ffffff"]}
-            onStopSpinning={() => {
-              setMustSpin(false);
-            }}
+            onStopSpinning={handleStopSpinning}
           />
         )}
         <button
@@ -64,7 +85,7 @@ export default function WheelSpinner() {
         >
           SPIN
         </button>
-        {selectedSpin && <SpinDetails data={selectedSpin} />}
+        {/* {selectedSpin && <SpinDetails data={selectedSpin} />} */}
       </div>
     </div>
   );

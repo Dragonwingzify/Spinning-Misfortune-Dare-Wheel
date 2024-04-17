@@ -4,6 +4,7 @@ const {
   getSpins,
   getSpin,
   deleteSpin,
+  updateSpin,
 } = require("../controllers/spinController");
 
 const router = express.Router();
@@ -23,6 +24,6 @@ router.post("/", createSpin);
 router.delete("/:id", deleteSpin);
 
 //Update a spin
-// router.patch("/:id", updateSpin)
+router.patch("/:id", updateSpin);
 
 module.exports = router;
