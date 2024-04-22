@@ -1,11 +1,8 @@
 ## Table of Contents
   - [Description](#description)
   - [Features](#features)
-  - [Installation](#installation)
-  - [Usage](#usage)
   - [Dependencies](#dependencies)
-  - [Contributing](#contributing)
-  - [License](#license)
+  - [Installation](#installation)
 
 
 # Spinning Misfortune
