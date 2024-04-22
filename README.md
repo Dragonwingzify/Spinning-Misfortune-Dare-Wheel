@@ -1,5 +1,5 @@
 ## Table of Contents
-- [Project Name](#Spinning Misfortune)
+- [Project Name](#Spinning-Misfortune)
   - [Description](#description)
   - [Features](#features)
   - [Installation](#installation)
