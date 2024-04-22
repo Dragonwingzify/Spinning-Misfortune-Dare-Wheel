@@ -60,16 +60,6 @@ To get started with this project, follow these steps:
 
     After installing dependencies, navigate to the `backend` and `punish-wheel` directories individually.
 
-    ```bash
-    cd backend
-    npm install
-    ```
-
-    ```bash
-    cd ../punish-wheel
-    npm install
-    ```
-
 4. **Start the backend server:**
 
     Inside the `backend` directory, run:
