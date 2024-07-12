@@ -79,3 +79,11 @@ To get started with this project, follow these steps:
     ```
 
     This will start the development server for the frontend and you should be able to access the project in your browser at `http://localhost:3000` by default.
+
+
+Current working prototype:
+![image](https://github.com/user-attachments/assets/c766e8ec-5084-43f6-b5fa-5aeabc8a7d42)
+
+How the finisihed product v1 should look like:
+
+![image](https://github.com/user-attachments/assets/e5b72abd-9428-424e-9288-f33b0891281d)
