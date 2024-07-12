@@ -87,3 +87,7 @@ Current working prototype:
 How the finisihed product v1 should look like:
 
 ![image](https://github.com/user-attachments/assets/e5b72abd-9428-424e-9288-f33b0891281d)
+
+Flow chart of thought process:
+![image](https://github.com/user-attachments/assets/5a54a523-4684-44dc-b251-91472fc38b53)
+
